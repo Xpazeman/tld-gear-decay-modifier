@@ -9,6 +9,11 @@ namespace GearDecayModifier
     {
         public static float decay_before_pickup = 1f;
         public static float general_decay = 1f;
+        public static float food_decay = 1f;
+        public static float stored_food_decay = 1f;
+        public static float clothing_decay = 1f;
+        public static float stored_clothing_decay = 1f;
+        public static bool apply_to_tools = false;
     }
 
     public class GearDecayModifier
@@ -30,21 +35,49 @@ namespace GearDecayModifier
         {
             [Section("Decay Reducer Settings")]
 
-            [Name("Global decay rate")]
-            [Description("Modifier for the rate the items will decay. 1 is default, 0 is no decay, and 2 doubles the rate.")]
-            [Slider(0f, 2f)]
+            [Name("Global decay Rate before pickup")]
+            [Description("At what rate the items will decay before being picked up or inspected. For example, 1 is default, 0.5 is half decay, and 0 is no decay until you discover the item.")]
+            [Slider(0f, 2f, 1)]
+            public float decay_before_pickup = 1f;
+
+            [Name("Food decay rate")]
+            [Description("At what rate the food that ISN't STORED in a container (either on the floor or in the inventory) will decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
+            [Slider(0f, 2f, 1)]
+            public float food_decay = 1f;
+
+            [Name("Stored food decay rate")]
+            [Description("At what rate the food that is INSIDE a container will decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
+            [Slider(0f, 2f, 1)]
+            public float stored_food_decay = 1f;
+
+            [Name("Clothing decay rate")]
+            [Description("At what rate the clothing that ISN't STORED in a container (either on the floor or in the inventory) will decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
+            [Slider(0f, 2f, 1)]
+            public float clothing_decay = 1f;
+
+            [Name("Stored clothing decay rate")]
+            [Description("At what rate the clothing that is INSIDE a container will decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
+            [Slider(0f, 2f, 1)]
+            public float stored_clothing_decay = 1f;
+
+            [Name("Other items decay rate")]
+            [Description("Modifier for the rate the rest of items will decay. For example, 1 is default, 0 is no decay, 0.5 is half the normal decay and 2 doubles the rate.")]
+            [Slider(0f, 2f, 1)]
             public float general_decay = 1f;
 
-
-            [Name("Decay Rate before pickup")]
-            [Description("At what rate the items will decay before being picked up or inspected. 1 is default, 0 is no decay until you touch the item.")]
-            [Slider(0f, 2f)]
-            public float decay_before_pickup = 1f;
+            [Name("Apply decay modifier to tools on use")]
+            [Description("If set to yes, the global modifier will be applied when tools like hatchet or whetstone are used.")]
+            public bool apply_to_tools = false;
 
             protected override void OnConfirm()
             {
                 GearDecayOptions.general_decay = general_decay;
                 GearDecayOptions.decay_before_pickup = decay_before_pickup;
+                GearDecayOptions.apply_to_tools = apply_to_tools;
+                GearDecayOptions.food_decay = food_decay;
+                GearDecayOptions.stored_food_decay = stored_food_decay;
+                GearDecayOptions.clothing_decay = clothing_decay;
+                GearDecayOptions.stored_clothing_decay = stored_clothing_decay;
 
                 string json_opts = FastJson.Serialize(this);
 
@@ -65,9 +98,14 @@ namespace GearDecayModifier
 
                     GearDecayOptions.general_decay = custom_settings.general_decay;
                     GearDecayOptions.decay_before_pickup = custom_settings.decay_before_pickup;
+                    GearDecayOptions.apply_to_tools = custom_settings.apply_to_tools;
+                    GearDecayOptions.food_decay = custom_settings.food_decay;
+                    GearDecayOptions.stored_food_decay = custom_settings.stored_food_decay;
+                    GearDecayOptions.clothing_decay = custom_settings.clothing_decay;
+                    GearDecayOptions.stored_clothing_decay = custom_settings.stored_clothing_decay;
                 }
 
-                custom_settings.AddToModSettings("Xpazeman Mini Mods");
+                custom_settings.AddToModSettings("Gear Decay Modifier");
             }
         }
     }
