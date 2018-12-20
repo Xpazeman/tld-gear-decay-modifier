@@ -1,5 +1,6 @@
 # Gear Decay Modifier
-Mod for The Long Dark to modify decay rates of gear
+Mod for The Long Dark to modify decay rates of gear.
+**Update to work on v1.42**
 
 ## Options
 + **Decay rate before pickup**: Modifies the decay rate of gear before player has inspected or taken the item.
