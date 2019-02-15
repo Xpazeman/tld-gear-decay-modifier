@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 using ModSettings;
 using UnityEngine;
@@ -10,9 +11,7 @@ namespace GearDecayModifier
         public static float decay_before_pickup = 1f;
         public static float general_decay = 1f;
         public static float food_decay = 1f;
-        public static float stored_food_decay = 1f;
         public static float clothing_decay = 1f;
-        public static float stored_clothing_decay = 1f;
         public static bool apply_to_tools = false;
     }
 
@@ -41,26 +40,16 @@ namespace GearDecayModifier
             public float decay_before_pickup = 1f;
 
             [Name("Food decay rate")]
-            [Description("At what rate the food that ISN't STORED in a container (either on the floor or in the inventory) will decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
+            [Description("At what rate the food items decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
             [Slider(0f, 2f, 1)]
             public float food_decay = 1f;
 
-            [Name("Stored food decay rate")]
-            [Description("At what rate the food that is INSIDE a container will decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
-            [Slider(0f, 2f, 1)]
-            public float stored_food_decay = 1f;
-
             [Name("Clothing decay rate")]
-            [Description("At what rate the clothing that ISN't STORED in a container (either on the floor or in the inventory) will decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
+            [Description("At what rate the clothing will decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
             [Slider(0f, 2f, 1)]
             public float clothing_decay = 1f;
 
-            [Name("Stored clothing decay rate")]
-            [Description("At what rate the clothing that is INSIDE a container will decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
-            [Slider(0f, 2f, 1)]
-            public float stored_clothing_decay = 1f;
-
-            [Name("Other items decay rate")]
+            [Name("Global decay rate")]
             [Description("Modifier for the rate the rest of items will decay. For example, 1 is default, 0 is no decay, 0.5 is half the normal decay and 2 doubles the rate.")]
             [Slider(0f, 2f, 1)]
             public float general_decay = 1f;
@@ -71,13 +60,11 @@ namespace GearDecayModifier
 
             protected override void OnConfirm()
             {
-                GearDecayOptions.general_decay = general_decay;
-                GearDecayOptions.decay_before_pickup = decay_before_pickup;
+                GearDecayOptions.general_decay = (float)Math.Round(general_decay, 1);
+                GearDecayOptions.decay_before_pickup = (float)Math.Round(decay_before_pickup, 1);
                 GearDecayOptions.apply_to_tools = apply_to_tools;
-                GearDecayOptions.food_decay = food_decay;
-                GearDecayOptions.stored_food_decay = stored_food_decay;
-                GearDecayOptions.clothing_decay = clothing_decay;
-                GearDecayOptions.stored_clothing_decay = stored_clothing_decay;
+                GearDecayOptions.food_decay = (float)Math.Round(food_decay, 1);
+                GearDecayOptions.clothing_decay = (float)Math.Round(clothing_decay, 1);
 
                 string json_opts = FastJson.Serialize(this);
 
@@ -100,9 +87,7 @@ namespace GearDecayModifier
                     GearDecayOptions.decay_before_pickup = custom_settings.decay_before_pickup;
                     GearDecayOptions.apply_to_tools = custom_settings.apply_to_tools;
                     GearDecayOptions.food_decay = custom_settings.food_decay;
-                    GearDecayOptions.stored_food_decay = custom_settings.stored_food_decay;
                     GearDecayOptions.clothing_decay = custom_settings.clothing_decay;
-                    GearDecayOptions.stored_clothing_decay = custom_settings.stored_clothing_decay;
                 }
 
                 custom_settings.AddToModSettings("Gear Decay Modifier");

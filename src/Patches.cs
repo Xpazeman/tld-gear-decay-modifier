@@ -1,5 +1,6 @@
 ﻿using System;
 using Harmony;
+using UnityEngine;
 
 namespace GearDecayModifier
 {
@@ -25,25 +26,11 @@ namespace GearDecayModifier
                 //If clothing
                 if (gi.m_ClothingItem)
                 {
-                    if (gi.IsInsideContainer())
-                    {
-                        decay_multiplier *= GearDecayOptions.stored_clothing_decay;
-                    }
-                    else
-                    {
-                        decay_multiplier *= GearDecayOptions.clothing_decay;
-                    }
+                    decay_multiplier *= GearDecayOptions.clothing_decay;
                 }
                 else if (gi.m_FoodItem)
                 {
-                    if (gi.IsInsideContainer())
-                    {
-                        decay_multiplier *= GearDecayOptions.stored_food_decay;
-                    }
-                    else
-                    {
-                        decay_multiplier *= GearDecayOptions.food_decay;
-                    }
+                    decay_multiplier *= GearDecayOptions.food_decay;
                 }
                 else
                 {
