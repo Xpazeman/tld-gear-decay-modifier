@@ -1,18 +1,37 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
-using ModSettings;
 using UnityEngine;
 
 namespace GearDecayModifier
 {
     public class GearDecayOptions
     {
-        public static float decay_before_pickup = 1f;
-        public static float general_decay = 1f;
-        public static float food_decay = 1f;
-        public static float clothing_decay = 1f;
-        public static bool apply_to_tools = false;
+        public float decayBeforePickup = 1f;
+
+        public float generalDecay = 1f;
+        public bool advDecay = false;
+
+        public float foodDecay = 1f;
+        public bool advFoodDecay = false;
+        public float rawFoodDecay = 1f;
+        public float cookedFoodDecay = 1f;
+        public float packagedFoodDecay = 1f;
+        public float openedFoodDecay = 1f;
+
+        public float clothingDecay = 1f;
+        public float quartersDecay = 1f;
+        public float bedrollDecay = 1f;
+
+        public float onUseDecay = 1f;
+        public bool advOnUseDecay = false;
+
+        public float gunDecay = 1f;
+        public float bowDecay = 1f;
+        public float arrowDecay = 1f;
+        //public float fishingDecay = 1f;
+        public float firestartingDecay = 1f;
+        //public float snareDecay = 1f;
+        public float toolsDecay = 1f;
     }
 
     public class GearDecayModifier
@@ -22,76 +41,134 @@ namespace GearDecayModifier
         public static string options_folder_name = "xpazeman-minimods";
         public static string options_file_name = "config-decay.json";
 
+        public static GearDecayOptions opts;
+
         public static void OnLoad()
         {
-            Debug.Log("[gear-decay-reducer] Version " + Assembly.GetExecutingAssembly().GetName().Version);
-
             mods_folder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             mod_options_folder = Path.Combine(mods_folder, options_folder_name);
+
+            GearDecaySettings decaySettings = new GearDecaySettings();
+            decaySettings.AddToModSettings("Gear Decay Settings");
+            opts = decaySettings.setOptions;
+
+            Debug.Log("[gear-decay-modifier] Version " + Assembly.GetExecutingAssembly().GetName().Version);
         }
 
-        internal class GearDecaySettings : ModSettingsBase
+        public static float ApplyDecayModifier(GearItem gi)
         {
-            [Section("Decay Reducer Settings")]
+            float decay_multiplier = 1f;
 
-            [Name("Global decay Rate before pickup")]
-            [Description("At what rate the items will decay before being picked up or inspected. For example, 1 is default, 0.5 is half decay, and 0 is no decay until you discover the item.")]
-            [Slider(0f, 2f, 1)]
-            public float decay_before_pickup = 1f;
-
-            [Name("Food decay rate")]
-            [Description("At what rate the food items decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
-            [Slider(0f, 2f, 1)]
-            public float food_decay = 1f;
-
-            [Name("Clothing decay rate")]
-            [Description("At what rate the clothing will decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
-            [Slider(0f, 2f, 1)]
-            public float clothing_decay = 1f;
-
-            [Name("Global decay rate")]
-            [Description("Modifier for the rate the rest of items will decay. For example, 1 is default, 0 is no decay, 0.5 is half the normal decay and 2 doubles the rate.")]
-            [Slider(0f, 2f, 1)]
-            public float general_decay = 1f;
-
-            [Name("Apply decay modifier to tools on use")]
-            [Description("If set to yes, the global modifier will be applied when tools like hatchet or whetstone are used.")]
-            public bool apply_to_tools = false;
-
-            protected override void OnConfirm()
+            if (!gi.m_DegradeOnUse)
             {
-                GearDecayOptions.general_decay = (float)Math.Round(general_decay, 1);
-                GearDecayOptions.decay_before_pickup = (float)Math.Round(decay_before_pickup, 1);
-                GearDecayOptions.apply_to_tools = apply_to_tools;
-                GearDecayOptions.food_decay = (float)Math.Round(food_decay, 1);
-                GearDecayOptions.clothing_decay = (float)Math.Round(clothing_decay, 1);
-
-                string json_opts = FastJson.Serialize(this);
-
-                File.WriteAllText(Path.Combine(mod_options_folder, options_file_name), json_opts);
-            }
-        }
-
-        internal static class GearDecaySettingsLoad
-        {
-            private static GearDecaySettings custom_settings = new GearDecaySettings();
-
-            public static void OnLoad()
-            {
-                if (File.Exists(Path.Combine(mod_options_folder, options_file_name)))
+                //Before pickup decay
+                if (!gi.m_BeenInspected && !gi.m_BeenInPlayerInventory && !gi.m_BeenInContainer)
                 {
-                    string opts = File.ReadAllText(Path.Combine(mod_options_folder, options_file_name));
-                    custom_settings = FastJson.Deserialize<GearDecaySettings>(opts);
-
-                    GearDecayOptions.general_decay = custom_settings.general_decay;
-                    GearDecayOptions.decay_before_pickup = custom_settings.decay_before_pickup;
-                    GearDecayOptions.apply_to_tools = custom_settings.apply_to_tools;
-                    GearDecayOptions.food_decay = custom_settings.food_decay;
-                    GearDecayOptions.clothing_decay = custom_settings.clothing_decay;
+                    decay_multiplier *= opts.decayBeforePickup;
                 }
 
-                custom_settings.AddToModSettings("Gear Decay Modifier");
+                if (!gi.m_HasBeenOwnedByPlayer)
+                {
+                    //Never picked Up
+                }
+
+                //Natural degrade
+                //if advanced decay
+                if (opts.advDecay)
+                {
+                    if (gi.m_ClothingItem)
+                    {
+                        decay_multiplier *= opts.clothingDecay;
+                    }
+                    else if (gi.m_BodyHarvest)
+                    {
+                        decay_multiplier *= opts.quartersDecay;
+                    }
+                    else if (gi.m_Bed)
+                    {
+                        decay_multiplier *= opts.bedrollDecay;
+                    }
+                    else if (gi.m_ArrowItem)
+                    {
+                        decay_multiplier *= opts.arrowDecay;
+                    }
+                    else if (gi.m_FoodItem)
+                    {
+                        //if advanced food
+                        if (GearDecayModifier.opts.advFoodDecay)
+                        {
+                            if (gi.m_FoodItem.m_IsNatural)
+                            {
+                                if (gi.m_FoodItem.m_IsRawMeat)
+                                {
+                                    decay_multiplier *= opts.rawFoodDecay;
+                                }
+                                else
+                                {
+                                    decay_multiplier *= opts.cookedFoodDecay;
+                                }
+                            }
+                            else
+                            {
+                                if (!gi.m_FoodItem.m_Opened)
+                                {
+                                    decay_multiplier *= opts.packagedFoodDecay;
+                                }
+                                else
+                                {
+                                    decay_multiplier *= opts.openedFoodDecay;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            decay_multiplier *= opts.foodDecay;
+                        }
+                    }
+                    else
+                    {
+                        decay_multiplier *= opts.generalDecay;
+                    }
+                }
+                else
+                {
+                    decay_multiplier *= opts.generalDecay;
+                }
             }
+            else
+            {
+                //Items that degrade on use
+                //if advanced decay on use
+                if (opts.advOnUseDecay)
+                {
+                    if (gi.m_GunItem)
+                    {
+                        decay_multiplier *= opts.gunDecay;
+                    }
+                    else if (gi.m_BowItem)
+                    {
+                        decay_multiplier *= opts.bowDecay;
+                    }
+                    else if (gi.m_FireStarterItem)
+                    {
+                        decay_multiplier *= opts.firestartingDecay;
+                    }
+                    else if (gi.m_ToolsItem)
+                    {
+                        decay_multiplier *= opts.toolsDecay;
+                    }
+                    else if (!gi.m_Bed)
+                    {
+                        decay_multiplier *= opts.onUseDecay;
+                    }
+                }
+                else
+                {
+                    decay_multiplier *= opts.onUseDecay;
+                }
+            }
+
+            return decay_multiplier;
         }
     }
 }
