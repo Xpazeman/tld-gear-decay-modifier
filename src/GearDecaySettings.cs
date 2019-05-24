@@ -166,7 +166,7 @@ namespace GearDecayModifier
             setOptions.firestartingDecay = firestartingDecay;
             setOptions.toolsDecay = toolsDecay;
 
-            string json_opts = FastJson.Serialize(this);
+            string json_opts = FastJson.Serialize(setOptions);
 
             File.WriteAllText(Path.Combine(GearDecayModifier.mod_options_folder, GearDecayModifier.options_file_name), json_opts);
         }
