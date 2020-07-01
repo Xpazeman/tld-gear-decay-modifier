@@ -1,6 +1,6 @@
 ﻿using System;
-using Harmony;
 using UnityEngine;
+using Harmony;
 
 namespace GearDecayModifier
 {
@@ -9,7 +9,6 @@ namespace GearDecayModifier
     {
         private static void Prefix(GearItem __instance, ref float hp)
         {
-
             float decay_multiplier = GearDecayModifier.ApplyDecayModifier(__instance);
 
             hp *= decay_multiplier;

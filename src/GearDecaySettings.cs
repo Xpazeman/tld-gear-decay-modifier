@@ -4,10 +4,8 @@ using ModSettings;
 
 namespace GearDecayModifier
 {
-    internal class GearDecaySettings : ModSettingsBase
+    internal class GearDecaySettings : JsonModSettings
     {
-        internal readonly GearDecayOptions setOptions = new GearDecayOptions();
-
         [Section("Decay Modifier Settings")]
 
         [Name("Global decay Rate before pickup")]
@@ -97,79 +95,15 @@ namespace GearDecayModifier
         [Slider(0f, 2f, 1)]
         public float firestartingDecay = 1f;
 
+        [Name("Whetstone decay rate")]
+        [Description("Modifies how much decay is applied to whetstones when used.")]
+        [Slider(0f, 2f, 1)]
+        public float whetstoneDecay = 1f;
+
         [Name("Tools decay rate")]
-        [Description("Modifies how much decay is applied to tools when used, this includes knives, hatchets or whetstones among others.")]
+        [Description("Modifies how much decay is applied to tools when used, this includes knives or hatchets among others.")]
         [Slider(0f, 2f, 1)]
         public float toolsDecay = 1f;
-
-
-        internal GearDecaySettings()
-        {
-            if (File.Exists(Path.Combine(GearDecayModifier.mod_options_folder, GearDecayModifier.options_file_name)))
-            {
-                string opts = File.ReadAllText(Path.Combine(GearDecayModifier.mod_options_folder, GearDecayModifier.options_file_name));
-                setOptions = FastJson.Deserialize<GearDecayOptions>(opts);
-
-                decayBeforePickup = setOptions.decayBeforePickup;
-
-                generalDecay = setOptions.generalDecay;
-                advDecay = setOptions.advDecay;
-
-                foodDecay = setOptions.foodDecay;
-                advFoodDecay = setOptions.advFoodDecay;
-                rawFoodDecay = setOptions.rawFoodDecay;
-                cookedFoodDecay = setOptions.cookedFoodDecay;
-                packagedFoodDecay = setOptions.packagedFoodDecay;
-                openedFoodDecay = setOptions.openedFoodDecay;
-
-                clothingDecay = setOptions.clothingDecay;
-                quartersDecay = setOptions.quartersDecay;
-                bedrollDecay = setOptions.bedrollDecay;
-
-                onUseDecay = setOptions.onUseDecay;
-                advOnUseDecay = setOptions.advOnUseDecay;
-
-                gunDecay = setOptions.gunDecay;
-                bowDecay = setOptions.bowDecay;
-                arrowDecay = setOptions.arrowDecay;
-                firestartingDecay = setOptions.firestartingDecay;
-                toolsDecay = setOptions.toolsDecay;
-            }
-
-            RefreshFields();
-        }
-
-        protected override void OnConfirm()
-        {
-            setOptions.decayBeforePickup = decayBeforePickup;
-
-            setOptions.generalDecay = generalDecay;
-            setOptions.advDecay = advDecay;
-
-            setOptions.foodDecay = foodDecay;
-            setOptions.advFoodDecay = advFoodDecay;
-            setOptions.rawFoodDecay = rawFoodDecay;
-            setOptions.cookedFoodDecay = cookedFoodDecay;
-            setOptions.packagedFoodDecay = packagedFoodDecay;
-            setOptions.openedFoodDecay = openedFoodDecay;
-
-            setOptions.clothingDecay = clothingDecay;
-            setOptions.quartersDecay = quartersDecay;
-            setOptions.bedrollDecay = bedrollDecay;
-
-            setOptions.onUseDecay = onUseDecay;
-            setOptions.advOnUseDecay = advOnUseDecay;
-
-            setOptions.gunDecay = gunDecay;
-            setOptions.bowDecay = bowDecay;
-            setOptions.arrowDecay = arrowDecay;
-            setOptions.firestartingDecay = firestartingDecay;
-            setOptions.toolsDecay = toolsDecay;
-
-            string json_opts = FastJson.Serialize(setOptions);
-
-            File.WriteAllText(Path.Combine(GearDecayModifier.mod_options_folder, GearDecayModifier.options_file_name), json_opts);
-        }
 
         protected override void OnChange(FieldInfo field, object oldValue, object newValue)
         {
@@ -195,7 +129,20 @@ namespace GearDecayModifier
             SetFieldVisible(nameof(bowDecay), advOnUseDecay);
             SetFieldVisible(nameof(arrowDecay), advOnUseDecay);
             SetFieldVisible(nameof(firestartingDecay), advOnUseDecay);
+            SetFieldVisible(nameof(whetstoneDecay), advOnUseDecay);
             SetFieldVisible(nameof(toolsDecay), advOnUseDecay);
+        }
+    }
+
+    internal static class Settings
+    {
+        public static GearDecaySettings options;
+
+        public static void OnLoad()
+        {
+            options = new GearDecaySettings();
+            options.RefreshFields();
+            options.AddToModSettings("Gear Decay Modifiers");
         }
     }
 }
