@@ -1,10 +1,14 @@
 # Gear Decay Modifier
 Mod for The Long Dark to modify decay rates of gear naturally and on use.
 
+## Updates
+### v2.1
+* FIX: Fixed issue with decay before pickup not applying.
+
 ## Installing the mod
 * If you haven't done so already, install MelonLoader by downloading and running [MelonLoader.Installer.exe](https://github.com/HerpDerpinstine/MelonLoader/releases/latest/download/MelonLoader.Installer.exe).
-* You'll need to download and install [ModSettings](https://github.com/zeobviouslyfakeacc/ModSettings/releases/download/v1.6/ModSettings.dll) by Zeo. **MOD WON'T WORK WITHOUT IT**
-* Download the latest version of GearDecayModifier.dll from the [releases page]().
+* You'll need to download and install [ModSettings](https://github.com/zeobviouslyfakeacc/ModSettings/releases/download/v1.7/ModSettings.dll) by Zeo. **MOD WON'T WORK WITHOUT IT**
+* Download the latest version of GearDecayModifier.dll from the [releases page](https://github.com/Xpazeman/tld-gear-decay-modifier/releases/latest).
 * Move GearDecayModifier.dll into the Mods folder in your TLD install directory.
 
 ## Description & Options

@@ -20,14 +20,9 @@ namespace GearDecayModifier
             if (!gi.m_DegradeOnUse)
             {
                 //Before pickup decay
-                if (!gi.m_BeenInspected && !gi.m_BeenInPlayerInventory && !gi.m_BeenInContainer)
+                if (!gi.m_BeenInspected && !gi.m_BeenInPlayerInventory)
                 {
                     decay_multiplier *= Settings.options.decayBeforePickup;
-                }
-
-                if (!gi.m_HasBeenOwnedByPlayer)
-                {
-                    //Never picked Up
                 }
 
                 //Natural degrade
