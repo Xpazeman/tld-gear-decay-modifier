@@ -1,6 +1,5 @@
-﻿using System.IO;
+﻿using ModSettings;
 using System.Reflection;
-using ModSettings;
 
 namespace GearDecayModifier
 {

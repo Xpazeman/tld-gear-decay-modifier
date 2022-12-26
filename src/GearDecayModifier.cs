@@ -1,6 +1,7 @@
-﻿using System.Reflection;
-using UnityEngine;
+﻿using Il2Cpp;
 using MelonLoader;
+using System.Reflection;
+using UnityEngine;
 
 namespace GearDecayModifier
 {
