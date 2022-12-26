@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿using MelonLoader.TinyJSON;
 using ModSettings;
 using System.Reflection;
 using UnityEngine;
@@ -46,7 +46,8 @@ namespace GearDecayModifier
                 GearDecayOptions.general_decay = general_decay;
                 GearDecayOptions.decay_before_pickup = decay_before_pickup;
 
-                string json_opts = FastJson.Serialize(this);
+                //string json_opts = FastJson.Serialize(this);
+                string json_opts = JSON.Dump(this);
 
                 File.WriteAllText(Path.Combine(mod_options_folder, options_file_name), json_opts);
             }
@@ -61,7 +62,8 @@ namespace GearDecayModifier
                 if (File.Exists(Path.Combine(mod_options_folder, options_file_name)))
                 {
                     string opts = File.ReadAllText(Path.Combine(mod_options_folder, options_file_name));
-                    custom_settings = FastJson.Deserialize<GearDecaySettings>(opts);
+                    //custom_settings = FastJson.Deserialize<GearDecaySettings>(opts);
+                    JSON.Load(opts).Populate<GearDecaySettings>(custom_settings);
 
                     GearDecayOptions.general_decay = custom_settings.general_decay;
                     GearDecayOptions.decay_before_pickup = custom_settings.decay_before_pickup;
