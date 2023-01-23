@@ -1,16 +1,15 @@
 ﻿using System.Reflection;
 using UnityEngine;
 using MelonLoader;
+using Il2Cpp;
 
 namespace GearDecayModifier
 {
     public class GearDecayModifier : MelonMod
     {
-        public override void OnApplicationStart()
+        public override void OnInitializeMelon()
         {
             Settings.OnLoad();
-
-            Debug.Log("[gear-decay-modifier] Version " + Assembly.GetExecutingAssembly().GetName().Version);
         }
 
         public static float ApplyDecayModifier(GearItem gi)

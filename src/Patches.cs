@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
-using Harmony;
+using HarmonyLib;
+using Il2Cpp;
 
 namespace GearDecayModifier
 {
