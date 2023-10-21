@@ -6,12 +6,14 @@ namespace GearDecayModifier
 {
     internal class GearDecaySettings : JsonModSettings
     {
-        [Section("Decay Modifier Settings")]
+        [Section("DECAY BEFORE PICKUP")]
 
         [Name("Global decay Rate before pickup")]
         [Description("At what rate the items will decay before being picked up or inspected. For example, 1 is default, 0.5 is half decay, and 0 is no decay until you discover the item.")]
         [Slider(0f, 2f, 1)]
         public float decayBeforePickup = 1f;
+
+        [Section("DECAY OVER TIME")]
 
         [Name("Global decay rate")]
         [Description("Base modifier for the rate items will decay over time (doesn't affect items that decay on use). For example, 1 is default, 0 is no decay, 0.5 is half the normal decay and 2 doubles the rate. If advanced decay is on, this rate will only be applied to items not in other categories.")]
@@ -65,6 +67,8 @@ namespace GearDecayModifier
         [Description("This affects the rate at which packaged foods will decay while they are open.")]
         [Slider(0f, 2f, 1)]
         public float openedFoodDecay = 1f;
+
+        [Section("DECAY ON USE")]
 
         [Name("Global On Use decay rate")]
         [Description("Modifier for how much tools will decay after uses. Setting this to 0.5 would make them last twice as long, while setting this to 2 will make them last half as long.")]
