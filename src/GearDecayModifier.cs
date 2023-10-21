@@ -109,6 +109,10 @@ namespace GearDecayModifier
                     {
                         decay_multiplier *= Settings.options.whetstoneDecay;
                     }
+                    else if (gi.name == "GEAR_Prybar")
+                    {
+                        decay_multiplier *= Settings.options.prybarDecay;
+                    }
                     else if (gi.m_ToolsItem)
                     {
                         decay_multiplier *= Settings.options.toolsDecay;

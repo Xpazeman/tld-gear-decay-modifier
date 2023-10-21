@@ -104,6 +104,11 @@ namespace GearDecayModifier
         [Slider(0f, 2f, 1)]
         public float whetstoneDecay = 1f;
 
+        [Name("Prybar decay rate")]
+        [Description("Modifies how much decay is applied to prybars when used.")]
+        [Slider(0f, 2f, 1)]
+        public float prybarDecay = 1f;
+
         [Name("Tools decay rate")]
         [Description("Modifies how much decay is applied to tools when used, this includes knives or hatchets among others.")]
         [Slider(0f, 2f, 1)]
@@ -134,6 +139,7 @@ namespace GearDecayModifier
             SetFieldVisible(nameof(arrowDecay), advOnUseDecay);
             SetFieldVisible(nameof(firestartingDecay), advOnUseDecay);
             SetFieldVisible(nameof(whetstoneDecay), advOnUseDecay);
+            SetFieldVisible(nameof(prybarDecay), advOnUseDecay);
             SetFieldVisible(nameof(toolsDecay), advOnUseDecay);
         }
     }
