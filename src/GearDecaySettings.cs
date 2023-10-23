@@ -6,12 +6,17 @@ namespace GearDecayModifier
 {
     internal class GearDecaySettings : JsonModSettings
     {
-        [Section("DECAY BEFORE PICKUP")]
+        [Section("GENERAL DECAY SETTINGS")]
 
         [Name("Global decay Rate before pickup")]
         [Description("At what rate the items will decay before being picked up or inspected. For example, 1 is default, 0.5 is half decay, and 0 is no decay until you discover the item.")]
         [Slider(0f, 2f, 1)]
         public float decayBeforePickup = 1f;
+
+        [Name("Bedrolls decay rate")]
+        [Description("At what rate the bedroll items decay. Affects both degradation over time and when used.")]
+        [Slider(0f, 2f, 1)]
+        public float bedrollDecay = 1f;
 
         [Section("DECAY OVER TIME")]
 
@@ -48,11 +53,6 @@ namespace GearDecayModifier
         [Description("At what rate the quarter bag items decay.")]
         [Slider(0f, 2f, 1)]
         public float quartersDecay = 1f;
-
-        [Name("Bedrolls decay rate")]
-        [Description("At what rate the bedroll items decay. Affects both degradation over time and when used.")]
-        [Slider(0f, 2f, 1)]
-        public float bedrollDecay = 1f;
 
         /*[Name("Cooked teas & coffees decay rate")]
         [Description("At what rate the cooked teas and coffee items decay.")]
@@ -157,13 +157,11 @@ namespace GearDecayModifier
             SetFieldVisible(nameof(openedFoodDecay), advDecay && advFoodDecay);
             SetFieldVisible(nameof(clothingDecay), advDecay);
             SetFieldVisible(nameof(quartersDecay), advDecay);
-            SetFieldVisible(nameof(bedrollDecay), advDecay);
             SetFieldVisible(nameof(firstAidDecay), advDecay);
             SetFieldVisible(nameof(flareGunAmmoSingleDecay), advDecay);
             SetFieldVisible(nameof(coffeeTinDecay), advDecay);
             SetFieldVisible(nameof(greenTeaPackageDecay), advDecay);
             //SetFieldVisible(nameof(cookedTeasAndCoffeesDecay), advDecay);
-
             SetFieldVisible(nameof(gunDecay), advOnUseDecay);
             SetFieldVisible(nameof(bowDecay), advOnUseDecay);
             SetFieldVisible(nameof(arrowDecay), advOnUseDecay);
