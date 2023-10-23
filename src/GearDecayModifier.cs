@@ -28,7 +28,19 @@ namespace GearDecayModifier
                 //if advanced decay
                 if (Settings.options.advDecay)
                 {
-                    if (gi.m_ClothingItem)
+                    if (gi.name == "GEAR_FlareGunAmmoSingle")
+                    {
+                        decay_multiplier *= Settings.options.flareGunAmmoSingleDecay;
+                    }
+                    else if (gi.name == "GEAR_CoffeeTin")
+                    {
+                        decay_multiplier *= Settings.options.coffeeTinDecay;
+                    }
+                    else if (gi.name == "GEAR_GreenTeaPackage")
+                    {
+                        decay_multiplier *= Settings.options.greenTeaPackageDecay;
+                    }
+                    else if (gi.m_ClothingItem)
                     {
                         decay_multiplier *= Settings.options.clothingDecay;
                     }
@@ -44,6 +56,10 @@ namespace GearDecayModifier
                     {
                         decay_multiplier *= Settings.options.arrowDecay;
                     }
+                    /*else if (gi.name == "GEAR_GreenTeaCup" || gi.name == "GEAR_ReishiTea" || gi.name == "GEAR_RoseHipTea" || gi.name == "GEAR_BurdockTea" || gi.name == "GEAR_BirchbarkTea" || gi.name == "GEAR_CoffeeCup" || gi.name == "GEAR_AcornCoffeeCup")
+                    {
+                        decay_multiplier *= Settings.options.cookedTeasAndCoffeesDecay;
+                    }*/
                     else if (gi.m_FoodItem)
                     {
                         //if advanced food
@@ -76,6 +92,10 @@ namespace GearDecayModifier
                         {
                             decay_multiplier *= Settings.options.foodDecay;
                         }
+                    }
+                    else if (gi.m_FirstAidItem)
+                    {
+                        decay_multiplier *= Settings.options.firstAidDecay;
                     }
                     else
                     {
@@ -131,4 +151,4 @@ namespace GearDecayModifier
             return decay_multiplier;
         }
     }
-}
+} 

@@ -24,6 +24,21 @@ namespace GearDecayModifier
         [Description("Turn this on to make decay control more granular.")]
         public bool advDecay = false;
 
+        [Name("Flare Gun Ammo decay rate")]
+        [Description("At what rate the flare gun ammo will decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
+        [Slider(0f, 2f, 1)]
+        public float flareGunAmmoSingleDecay = 1f;
+
+        [Name("Coffee tin decay rate")]
+        [Description("At what rate the coffee tin will decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
+        [Slider(0f, 2f, 1)]
+        public float coffeeTinDecay = 1f;
+
+        [Name("Herbal tea package decay rate")]
+        [Description("At what rate the herbal tea package will decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
+        [Slider(0f, 2f, 1)]
+        public float greenTeaPackageDecay = 1f;
+
         [Name("Clothing decay rate")]
         [Description("At what rate the clothing will decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
         [Slider(0f, 2f, 1)]
@@ -38,6 +53,11 @@ namespace GearDecayModifier
         [Description("At what rate the bedroll items decay. Affects both degradation over time and when used.")]
         [Slider(0f, 2f, 1)]
         public float bedrollDecay = 1f;
+
+        /*[Name("Cooked teas & coffees decay rate")]
+        [Description("At what rate the cooked teas and coffee items decay.")]
+        [Slider(0f, 2f, 1)]
+        public float cookedTeasAndCoffeesDecay = 0f;*/
 
         [Name("Food decay rate")]
         [Description("At what rate the food items decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
@@ -67,6 +87,11 @@ namespace GearDecayModifier
         [Description("This affects the rate at which packaged foods will decay while they are open.")]
         [Slider(0f, 2f, 1)]
         public float openedFoodDecay = 1f;
+
+        [Name("First aid items decay rate")]
+        [Description("At what rate the medicine items decay.")]
+        [Slider(0f, 2f, 1)]
+        public float firstAidDecay = 1f;
 
         [Section("DECAY ON USE")]
 
@@ -133,6 +158,11 @@ namespace GearDecayModifier
             SetFieldVisible(nameof(clothingDecay), advDecay);
             SetFieldVisible(nameof(quartersDecay), advDecay);
             SetFieldVisible(nameof(bedrollDecay), advDecay);
+            SetFieldVisible(nameof(firstAidDecay), advDecay);
+            SetFieldVisible(nameof(flareGunAmmoSingleDecay), advDecay);
+            SetFieldVisible(nameof(coffeeTinDecay), advDecay);
+            SetFieldVisible(nameof(greenTeaPackageDecay), advDecay);
+            //SetFieldVisible(nameof(cookedTeasAndCoffeesDecay), advDecay);
 
             SetFieldVisible(nameof(gunDecay), advOnUseDecay);
             SetFieldVisible(nameof(bowDecay), advOnUseDecay);
