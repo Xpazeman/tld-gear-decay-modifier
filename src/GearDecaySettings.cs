@@ -6,12 +6,19 @@ namespace GearDecayModifier
 {
     internal class GearDecaySettings : JsonModSettings
     {
-        [Section("Decay Modifier Settings")]
+        [Section("GENERAL DECAY SETTINGS")]
 
         [Name("Global decay Rate before pickup")]
         [Description("At what rate the items will decay before being picked up or inspected. For example, 1 is default, 0.5 is half decay, and 0 is no decay until you discover the item.")]
         [Slider(0f, 2f, 1)]
         public float decayBeforePickup = 1f;
+
+        [Name("Bedrolls decay rate")]
+        [Description("At what rate the bedroll items decay. Affects both degradation over time and when used.")]
+        [Slider(0f, 2f, 1)]
+        public float bedrollDecay = 1f;
+
+        [Section("DECAY OVER TIME")]
 
         [Name("Global decay rate")]
         [Description("Base modifier for the rate items will decay over time (doesn't affect items that decay on use). For example, 1 is default, 0 is no decay, 0.5 is half the normal decay and 2 doubles the rate. If advanced decay is on, this rate will only be applied to items not in other categories.")]
@@ -21,6 +28,21 @@ namespace GearDecayModifier
         [Name("Advanced decay Modifiers")]
         [Description("Turn this on to make decay control more granular.")]
         public bool advDecay = false;
+
+        [Name("Flare Gun Ammo decay rate")]
+        [Description("At what rate the flare gun ammo will decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
+        [Slider(0f, 2f, 1)]
+        public float flareGunAmmoSingleDecay = 1f;
+
+        [Name("Coffee tin decay rate")]
+        [Description("At what rate the coffee tin will decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
+        [Slider(0f, 2f, 1)]
+        public float coffeeTinDecay = 1f;
+
+        [Name("Herbal tea package decay rate")]
+        [Description("At what rate the herbal tea package will decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
+        [Slider(0f, 2f, 1)]
+        public float greenTeaPackageDecay = 1f;
 
         [Name("Clothing decay rate")]
         [Description("At what rate the clothing will decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
@@ -32,10 +54,10 @@ namespace GearDecayModifier
         [Slider(0f, 2f, 1)]
         public float quartersDecay = 1f;
 
-        [Name("Bedrolls decay rate")]
-        [Description("At what rate the bedroll items decay. Affects both degradation over time and when used.")]
+        /*[Name("Cooked teas & coffees decay rate")]
+        [Description("At what rate the cooked teas and coffee items decay.")]
         [Slider(0f, 2f, 1)]
-        public float bedrollDecay = 1f;
+        public float cookedTeasAndCoffeesDecay = 0f;*/
 
         [Name("Food decay rate")]
         [Description("At what rate the food items decay. For example, 1 is default, 0.5 is half decay, and 0 is no decay at all.")]
@@ -65,6 +87,13 @@ namespace GearDecayModifier
         [Description("This affects the rate at which packaged foods will decay while they are open.")]
         [Slider(0f, 2f, 1)]
         public float openedFoodDecay = 1f;
+
+        [Name("First aid items decay rate")]
+        [Description("At what rate the medicine items decay.")]
+        [Slider(0f, 2f, 1)]
+        public float firstAidDecay = 1f;
+
+        [Section("DECAY ON USE")]
 
         [Name("Global On Use decay rate")]
         [Description("Modifier for how much tools will decay after uses. Setting this to 0.5 would make them last twice as long, while setting this to 2 will make them last half as long.")]
@@ -100,6 +129,11 @@ namespace GearDecayModifier
         [Slider(0f, 2f, 1)]
         public float whetstoneDecay = 1f;
 
+        [Name("Prybar decay rate")]
+        [Description("Modifies how much decay is applied to prybars when used.")]
+        [Slider(0f, 2f, 1)]
+        public float prybarDecay = 1f;
+
         [Name("Tools decay rate")]
         [Description("Modifies how much decay is applied to tools when used, this includes knives or hatchets among others.")]
         [Slider(0f, 2f, 1)]
@@ -123,13 +157,17 @@ namespace GearDecayModifier
             SetFieldVisible(nameof(openedFoodDecay), advDecay && advFoodDecay);
             SetFieldVisible(nameof(clothingDecay), advDecay);
             SetFieldVisible(nameof(quartersDecay), advDecay);
-            SetFieldVisible(nameof(bedrollDecay), advDecay);
-
+            SetFieldVisible(nameof(firstAidDecay), advDecay);
+            SetFieldVisible(nameof(flareGunAmmoSingleDecay), advDecay);
+            SetFieldVisible(nameof(coffeeTinDecay), advDecay);
+            SetFieldVisible(nameof(greenTeaPackageDecay), advDecay);
+            //SetFieldVisible(nameof(cookedTeasAndCoffeesDecay), advDecay);
             SetFieldVisible(nameof(gunDecay), advOnUseDecay);
             SetFieldVisible(nameof(bowDecay), advOnUseDecay);
             SetFieldVisible(nameof(arrowDecay), advOnUseDecay);
             SetFieldVisible(nameof(firestartingDecay), advOnUseDecay);
             SetFieldVisible(nameof(whetstoneDecay), advOnUseDecay);
+            SetFieldVisible(nameof(prybarDecay), advOnUseDecay);
             SetFieldVisible(nameof(toolsDecay), advOnUseDecay);
         }
     }
